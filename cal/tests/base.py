@@ -3,10 +3,14 @@ Allows overriding of flags for use of fakes, and some black magic for
 inline callbacks.
 """
 import contextlib
-from falcon import testing
+
+import eventlet
+eventlet.monkey_patch(os=False)
+
 import fixtures
 import inspect
 import mock
+
 import six
 import testtools
 
@@ -22,14 +26,12 @@ else:
 
 
 class skipIf(object):
-
     """Class for skipping individual test methods
     and even whole classes of tests.(Like unittest.skipIf())
     Example usage could be:
         @base.skipIf(mylib.__version__ < (1, 3),
                      "not supported in this library version")
     """
-
     def __init__(self, condition, reason):
         self.condition = condition
         self.reason = reason
@@ -84,8 +86,7 @@ def _patch_mock_to_raise_for_invalid_assert_calls():
 _patch_mock_to_raise_for_invalid_assert_calls()
 
 
-class TestCase(testing.TestCase):
-
+class TestCase(testtools.TestCase):
     """Test case base class for all unit tests.
     Due to the slowness of DB access, please consider deriving from
     `NoDBTestCase` first.
@@ -141,7 +142,6 @@ class TestCase(testing.TestCase):
 
 
 class NoDBTestCase(TestCase):
-
     """`NoDBTestCase` differs from TestCase in that DB access is not supported.
     This makes tests run significantly faster. If possible, all new tests
     should derive from this class.
@@ -150,7 +150,6 @@ class NoDBTestCase(TestCase):
 
 
 class BaseHookTestCase(NoDBTestCase):
-
     def assert_has_hook(self, expected_name, func):
         self.assertTrue(hasattr(func, '__hook_name__'))
         self.assertEqual(expected_name, func.__hook_name__)

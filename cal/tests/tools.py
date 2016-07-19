@@ -10,13 +10,11 @@ _TRUE_VALUES = ('True', 'true', '1', 'yes')
 
 
 class NullHandler(std_logging.Handler):
-
     """custom default NullHandler to attempt to format the record.
     Used in conjunction with
     log_fixture.get_logging_handle_error_fixture to detect formatting errors in
     debug level logs without saving the logs.
     """
-
     def handle(self, record):
         self.format(record)
 
@@ -28,7 +26,6 @@ class NullHandler(std_logging.Handler):
 
 
 class StandardLogging(fixtures.Fixture):
-
     """Setup Logging redirection for tests.
     There are a number of things we want to handle with logging in tests:
     * Redirect the logging to somewhere that we can test or dump it later.
