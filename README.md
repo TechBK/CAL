@@ -1,5 +1,3 @@
-CI Status: [![Travis CI](https://travis-ci.org/cloudcomputinghust/CAL.svg?branch=master)](https://travis-ci.org/cloudcomputinghust/CAL)
-    
 # CAL
 ## CAL Framework:
 ### How it run?
